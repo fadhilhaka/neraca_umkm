@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_neraca_wallet_list" model="ir.ui.view">
+        <field name="name">neraca.wallet.list</field>
+        <field name="model">neraca.wallet</field>
+        <field name="arch" type="xml">
+            <list string="Dompet">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="wallet_type"/>
+                <field name="provider"/>
+                <field name="journal_id"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="balance"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_neraca_wallet_form" model="ir.ui.view">
+        <field name="name">neraca.wallet.form</field>
+        <field name="model">neraca.wallet</field>
+        <field name="arch" type="xml">
+            <form string="Dompet">
+                <header>
+                    <button name="action_open_journal" type="object" string="Buka Jurnal"
+                            class="btn-secondary" invisible="not journal_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Contoh: Kas Toko"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="wallet_type"/>
+                            <field name="provider"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="journal_id"/>
+                            <field name="account_id"/>
+                            <field name="balance"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Catatan">
+                        <field name="note" nolabel="1" placeholder="Catatan tambahan..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_neraca_wallet" model="ir.actions.act_window">
+        <field name="name">Dompet</field>
+        <field name="res_model">neraca.wallet</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat dompet pertama Anda
+            </p>
+            <p>
+                Dompet menghubungkan kas, bank, atau e-wallet ke jurnal akuntansi Odoo.
+            </p>
+        </field>
+    </record>
+</odoo>

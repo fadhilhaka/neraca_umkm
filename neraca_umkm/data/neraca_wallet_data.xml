@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Optional sequence helper for wallet account codes -->
+    <record id="seq_neraca_wallet" model="ir.sequence">
+        <field name="name">Neraca Wallet</field>
+        <field name="code">neraca.wallet</field>
+        <field name="padding">2</field>
+        <field name="number_next">1</field>
+    </record>
+</odoo>

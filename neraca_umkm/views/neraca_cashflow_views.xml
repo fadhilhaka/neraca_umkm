@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_neraca_cashflow_dashboard" model="ir.actions.client">
+        <field name="name">Papan Cashflow</field>
+        <field name="tag">neraca_umkm_cashflow_dashboard</field>
+    </record>
+</odoo>

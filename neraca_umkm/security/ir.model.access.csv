@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_neraca_wallet_user,neraca.wallet.user,model_neraca_wallet,group_neraca_user,1,1,1,0
+access_neraca_wallet_manager,neraca.wallet.manager,model_neraca_wallet,group_neraca_manager,1,1,1,1
+access_neraca_budget_user,neraca.budget.user,model_neraca_budget,group_neraca_user,1,1,1,0
+access_neraca_budget_manager,neraca.budget.manager,model_neraca_budget,group_neraca_manager,1,1,1,1
+access_neraca_budget_line_user,neraca.budget.line.user,model_neraca_budget_line,group_neraca_user,1,1,1,0
+access_neraca_budget_line_manager,neraca.budget.line.manager,model_neraca_budget_line,group_neraca_manager,1,1,1,1
+access_neraca_partner_aging_user,neraca.partner.aging.user,model_neraca_partner_aging,group_neraca_user,1,1,1,1
+access_neraca_pl_report_user,neraca.pl.report.user,model_neraca_pl_report,group_neraca_user,1,1,1,1
+access_neraca_pl_report_line_user,neraca.pl.report.line.user,model_neraca_pl_report_line,group_neraca_user,1,1,1,1
+access_neraca_wallet_account,neraca.wallet.account,model_neraca_wallet,account.group_account_invoice,1,1,1,0
+access_neraca_budget_account,neraca.budget.account,model_neraca_budget,account.group_account_invoice,1,1,1,0
+access_neraca_budget_line_account,neraca.budget.line.account,model_neraca_budget_line,account.group_account_invoice,1,1,1,0
+access_neraca_aging_account,neraca.partner.aging.account,model_neraca_partner_aging,account.group_account_invoice,1,1,1,1
+access_neraca_pl_account,neraca.pl.report.account,model_neraca_pl_report,account.group_account_invoice,1,1,1,1
+access_neraca_pl_line_account,neraca.pl.report.line.account,model_neraca_pl_report_line,account.group_account_invoice,1,1,1,1

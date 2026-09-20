@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_neraca_budget_list" model="ir.ui.view">
+        <field name="name">neraca.budget.list</field>
+        <field name="model">neraca.budget</field>
+        <field name="arch" type="xml">
+            <list string="Anggaran"
+                  decoration-danger="is_over_budget"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="amount_planned"/>
+                <field name="amount_actual"/>
+                <field name="amount_variance"/>
+                <field name="is_over_budget" optional="hide"/>
+                <field name="state" widget="badge"
+                         decoration-info="state == 'draft'"
+                         decoration-success="state == 'confirmed'"
+                         decoration-primary="state == 'done'"
+                         decoration-danger="state == 'cancelled'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_neraca_budget_form" model="ir.ui.view">
+        <field name="name">neraca.budget.form</field>
+        <field name="model">neraca.budget</field>
+        <field name="arch" type="xml">
+            <form string="Anggaran">
+                <header>
+                    <button name="action_confirm" type="object" string="Konfirmasi"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Selesai"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_draft" type="object" string="Set Draft"
+                            invisible="state not in ('cancelled', 'done')"/>
+                    <button name="action_cancel" type="object" string="Batalkan"
+                            invisible="state in ('cancelled', 'done')"/>
+                    <button name="action_recompute_actuals" type="object"
+                            string="Hitung Ulang Aktual" class="btn-secondary"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="amount_planned"/>
+                            <field name="amount_actual"/>
+                            <field name="amount_variance"
+                                     decoration-danger="is_over_budget"
+                                     decoration-success="not is_over_budget"/>
+                            <field name="is_over_budget" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Baris Anggaran" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom"
+                                      decoration-danger="is_over_budget">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="account_id"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="amount_planned"/>
+                                    <field name="amount_actual"/>
+                                    <field name="amount_variance"/>
+                                    <field name="variance_percent" optional="hide"/>
+                                    <field name="is_over_budget" optional="hide"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Catatan" name="notes">
+                            <field name="note" placeholder="Catatan anggaran..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_neraca_budget" model="ir.actions.act_window">
+        <field name="name">Anggaran</field>
+        <field name="res_model">neraca.budget</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat anggaran bulanan
+            </p>
+            <p>
+                Bandingkan rencana vs aktual per akun beban. Baris merah = melebihi anggaran.
+            </p>
+        </field>
+    </record>
+</odoo>

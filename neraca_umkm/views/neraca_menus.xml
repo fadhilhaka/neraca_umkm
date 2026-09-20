@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_neraca_umkm_root"
+              name="Neraca UMKM"
+              sequence="45"
+              groups="neraca_umkm.group_neraca_user,account.group_account_invoice"/>
+
+    <menuitem id="menu_neraca_cashflow"
+              name="Papan Cashflow"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_cashflow_dashboard"
+              sequence="10"/>
+
+    <menuitem id="menu_neraca_wallet"
+              name="Dompet"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_wallet"
+              sequence="20"/>
+
+    <menuitem id="menu_neraca_budget"
+              name="Anggaran"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_budget"
+              sequence="30"/>
+
+    <menuitem id="menu_neraca_piutang"
+              name="Piutang"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_piutang"
+              sequence="40"/>
+
+    <menuitem id="menu_neraca_utang"
+              name="Utang"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_utang"
+              sequence="50"/>
+
+    <menuitem id="menu_neraca_pl"
+              name="Laporan Laba Rugi UMKM"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_pl"
+              sequence="60"/>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sample partners for a warung/toko -->
+    <record id="demo_partner_supplier_beras" model="res.partner">
+        <field name="name">Supplier Beras Makmur</field>
+        <field name="company_type">company</field>
+        <field name="supplier_rank">1</field>
+        <field name="street">Jl. Pasar Induk No. 12</field>
+        <field name="city">Jakarta</field>
+        <field name="country_id" ref="base.id"/>
+    </record>
+
+    <record id="demo_partner_customer_bu_siti" model="res.partner">
+        <field name="name">Bu Siti (Langganan)</field>
+        <field name="company_type">person</field>
+        <field name="customer_rank">1</field>
+        <field name="city">Jakarta</field>
+        <field name="country_id" ref="base.id"/>
+    </record>
+
+    <record id="demo_partner_customer_pak_budi" model="res.partner">
+        <field name="name">Pak Budi Warung Sebelah</field>
+        <field name="company_type">person</field>
+        <field name="customer_rank">1</field>
+        <field name="city">Jakarta</field>
+        <field name="country_id" ref="base.id"/>
+    </record>
+
+    <!-- Demo wallets — journals auto-created on create -->
+    <record id="demo_wallet_kas_toko" model="neraca.wallet">
+        <field name="name">Kas Toko</field>
+        <field name="wallet_type">cash</field>
+        <field name="provider">kas_tunai</field>
+        <field name="sequence">1</field>
+        <field name="note">Kas harian warung / toko kelontong</field>
+    </record>
+
+    <record id="demo_wallet_bca" model="neraca.wallet">
+        <field name="name">BCA Operasional</field>
+        <field name="wallet_type">bank</field>
+        <field name="provider">bca</field>
+        <field name="sequence">2</field>
+        <field name="note">Rekening BCA untuk supplier dan transfer</field>
+    </record>
+
+    <record id="demo_wallet_gopay" model="neraca.wallet">
+        <field name="name">GoPay Toko</field>
+        <field name="wallet_type">ewallet</field>
+        <field name="provider">gopay</field>
+        <field name="sequence">3</field>
+        <field name="note">E-wallet untuk pembayaran QR pelanggan</field>
+    </record>
+
+    <record id="demo_wallet_ovo" model="neraca.wallet">
+        <field name="name">OVO Cadangan</field>
+        <field name="wallet_type">ewallet</field>
+        <field name="provider">ovo</field>
+        <field name="sequence">4</field>
+    </record>
+
+    <!-- Monthly budget header; lines filled by load_demo_budget_lines -->
+    <record id="demo_budget_bulan_ini" model="neraca.budget">
+        <field name="name">Anggaran Operasional Toko</field>
+        <field name="state">confirmed</field>
+        <field name="note">Anggaran demo untuk warung kelontong — sewa, listrik, belanja barang</field>
+    </record>
+
+    <function model="neraca.budget" name="load_demo_budget_lines">
+        <value eval="[ref('demo_budget_bulan_ini')]"/>
+    </function>
+</odoo>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="neraca_umkm.CashflowDashboard">
+        <div class="o_neraca_cashflow_dashboard">
+            <div class="neraca-hero">
+                <div>
+                    <div class="neraca-kicker">Neraca UMKM</div>
+                    <h1>Papan Cashflow</h1>
+                    <p class="neraca-sub" t-if="state.data">
+                        <t t-esc="state.data.company"/>
+                        · <t t-esc="state.data.period.start"/> – <t t-esc="state.data.period.end"/>
+                    </p>
+                </div>
+                <button class="neraca-refresh" t-on-click="loadData" t-att-disabled="state.loading">
+                    Muat Ulang
+                </button>
+            </div>
+
+            <div t-if="state.loading and !state.data" class="neraca-skeleton" aria-hidden="true">
+                <div class="neraca-skel-card"/>
+                <div class="neraca-skel-card"/>
+            </div>
+
+            <div t-if="state.error" class="alert neraca-alert" t-esc="state.error"/>
+
+            <t t-if="state.data and !state.error">
+                <div class="neraca-card neraca-summary" style="--neraca-delay: 0.05s">
+                    <div class="neraca-balance-label">Saldo Dompet</div>
+                    <div class="neraca-balance-value" t-esc="formatMoney(state.display.balance)"/>
+                    <div class="neraca-summary-split">
+                        <div class="neraca-summary-tile is-in">
+                            <div class="neraca-tile-label">
+                                <span class="neraca-tile-dot"/>
+                                Masuk
+                            </div>
+                            <div class="neraca-tile-value" t-esc="formatMoney(state.display.inflow)"/>
+                        </div>
+                        <div class="neraca-summary-divider"/>
+                        <div class="neraca-summary-tile is-out">
+                            <div class="neraca-tile-label">
+                                <span class="neraca-tile-dot"/>
+                                Keluar
+                            </div>
+                            <div class="neraca-tile-value" t-esc="formatMoney(state.display.outflow)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neraca-kpi-row">
+                    <div class="neraca-kpi-tile is-net" style="--neraca-delay: 0.1s">
+                        <div class="neraca-kpi-badge">N</div>
+                        <div class="neraca-kpi-label">Netto</div>
+                        <div class="neraca-kpi-value" t-esc="formatMoney(state.display.net)"/>
+                    </div>
+                    <div class="neraca-kpi-tile is-in" style="--neraca-delay: 0.14s">
+                        <div class="neraca-kpi-badge">↓</div>
+                        <div class="neraca-kpi-label">Masuk</div>
+                        <div class="neraca-kpi-value" t-esc="formatMoney(state.display.inflow)"/>
+                    </div>
+                    <div class="neraca-kpi-tile is-out" style="--neraca-delay: 0.18s">
+                        <div class="neraca-kpi-badge">↑</div>
+                        <div class="neraca-kpi-label">Keluar</div>
+                        <div class="neraca-kpi-value" t-esc="formatMoney(state.display.outflow)"/>
+                    </div>
+                    <div class="neraca-kpi-tile is-balance" style="--neraca-delay: 0.22s">
+                        <div class="neraca-kpi-badge">Σ</div>
+                        <div class="neraca-kpi-label">Saldo</div>
+                        <div class="neraca-kpi-value" t-esc="formatMoney(state.display.balance)"/>
+                    </div>
+                </div>
+
+                <div class="neraca-mid">
+                    <div class="neraca-card neraca-panel" style="--neraca-delay: 0.26s">
+                        <h5>Runway</h5>
+                        <div class="neraca-runway">
+                            <div class="neraca-ring-wrap">
+                                <div class="neraca-ring" t-ref="runwayRing"/>
+                                <div class="neraca-ring-label" t-esc="ringCenterLabel"/>
+                            </div>
+                            <div>
+                                <p class="neraca-runway-value" t-esc="runwayLabel"/>
+                                <p class="neraca-runway-hint">
+                                    Estimasi hari bertahan berdasarkan rata-rata pengeluaran.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="neraca-card neraca-panel" style="--neraca-delay: 0.3s">
+                        <h5>Proyeksi Saldo</h5>
+                        <div class="neraca-proj">
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">30 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.display.d30)"/>
+                            </div>
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">60 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.display.d60)"/>
+                            </div>
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">90 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.display.d90)"/>
+                            </div>
+                        </div>
+                        <p class="neraca-footnote">
+                            Rata-rata cashflow 30 hari + sisa anggaran.
+                            Anggaran: <t t-esc="formatMoney(state.data.budget_planned)"/>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="neraca-card neraca-panel neraca-wallets" style="--neraca-delay: 0.34s">
+                    <h5>Dompet</h5>
+                    <t t-if="!state.data.wallets.length">
+                        <p class="neraca-footnote mb-0">Belum ada dompet. Buat di menu Dompet.</p>
+                    </t>
+                    <table t-else="" class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Tipe</th>
+                                <th>Provider</th>
+                                <th class="text-end">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="state.data.wallets" t-as="w" t-key="w.id">
+                                <td t-esc="w.name"/>
+                                <td><span class="neraca-type-pill" t-esc="w.type"/></td>
+                                <td t-esc="w.provider"/>
+                                <td class="text-end" t-esc="formatMoney(w.balance)"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

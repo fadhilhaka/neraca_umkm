@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_neraca_partner_aging_list" model="ir.ui.view">
+        <field name="name">neraca.partner.aging.list</field>
+        <field name="model">neraca.partner.aging</field>
+        <field name="arch" type="xml">
+            <list string="Piutang &amp; Utang" create="0" edit="0" delete="0"
+                  decoration-danger="days_overdue &gt; 0">
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="date_maturity"/>
+                <field name="days_overdue"/>
+                <field name="residual"/>
+                <field name="aging_type" optional="hide"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="move_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_neraca_partner_aging_form" model="ir.ui.view">
+        <field name="name">neraca.partner.aging.form</field>
+        <field name="model">neraca.partner.aging</field>
+        <field name="arch" type="xml">
+            <form string="Detail Aging" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="aging_type"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="date_maturity"/>
+                            <field name="days_overdue"/>
+                            <field name="residual"/>
+                            <field name="currency_id"/>
+                            <field name="move_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_neraca_piutang" model="ir.actions.server">
+        <field name="name">Piutang</field>
+        <field name="model_id" ref="model_neraca_partner_aging"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_piutang()</field>
+    </record>
+
+    <record id="action_neraca_utang" model="ir.actions.server">
+        <field name="name">Utang</field>
+        <field name="model_id" ref="model_neraca_partner_aging"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_utang()</field>
+    </record>
+</odoo>
