@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Neraca for UMKM",
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "category": "Accounting/Accounting",
     "summary": "Personal-finance clarity for Indonesian UMKM: wallets, cashflow, budgets, piutang/utang, P&L",
     "description": """

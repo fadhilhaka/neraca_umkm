@@ -2,6 +2,11 @@
 
 All notable changes to **Neraca for UMKM** (`neraca_umkm`) are documented in this file.
 
+## [18.0.1.3.0] — 2026-09-20
+
+### Changed
+- **Papan Cashflow** responsive layout: full-width desktop auto-layout (summary + KPI grid side-by-side, runway/proyeksi two-column, wallets full bleed); mobile keeps the stacked structure
+
 ## [18.0.1.2.0] — 2026-09-20
 
 ### Changed

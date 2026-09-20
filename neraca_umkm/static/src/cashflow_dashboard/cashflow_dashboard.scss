@@ -35,13 +35,23 @@
     --ds-r-lg: 16px;
     --ds-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-    max-width: 720px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
     padding: 20px 16px 32px;
+    box-sizing: border-box;
     color: var(--ds-label);
     background: var(--ds-page);
     min-height: 100%;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    @media (min-width: 768px) {
+        padding: 24px 28px 40px;
+    }
+
+    @media (min-width: 1200px) {
+        padding: 28px 36px 48px;
+    }
 
     .neraca-hero {
         display: flex;
@@ -107,9 +117,16 @@
         }
     }
 
-    .neraca-skeleton {
+    .neraca-top {
         display: flex;
         flex-direction: column;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .neraca-skeleton {
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 12px;
         margin-bottom: 16px;
 
@@ -124,6 +141,132 @@
             );
             background-size: 200% 100%;
             animation: neraca-shimmer 1.2s ease-in-out infinite;
+        }
+
+        .neraca-skel-wide {
+            display: none;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .neraca-top {
+            display: grid;
+            grid-template-columns: minmax(280px, 1.15fr) minmax(320px, 1fr);
+            gap: 16px;
+            align-items: stretch;
+            margin-bottom: 16px;
+        }
+
+        .neraca-summary {
+            margin-bottom: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px;
+
+            .neraca-balance-value {
+                font-size: 42px;
+            }
+
+            .neraca-summary-split {
+                margin-top: auto;
+            }
+        }
+
+        .neraca-kpi-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 0;
+            height: 100%;
+        }
+
+        .neraca-kpi-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 14px;
+
+            .neraca-kpi-badge {
+                width: 44px;
+                height: 44px;
+            }
+
+            .neraca-kpi-value {
+                font-size: 15px;
+            }
+        }
+
+        .neraca-mid {
+            grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.4fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .neraca-panel {
+            padding: 20px 22px;
+        }
+
+        .neraca-runway {
+            gap: 18px;
+
+            .neraca-ring-wrap,
+            .neraca-ring {
+                width: 88px;
+                height: 88px;
+            }
+
+            .neraca-ring::before {
+                width: 66px;
+                height: 66px;
+            }
+
+            .neraca-runway-value {
+                font-size: 26px;
+            }
+        }
+
+        .neraca-proj {
+            gap: 12px;
+
+            .neraca-proj-item {
+                padding: 16px 10px;
+            }
+
+            .neraca-proj-value {
+                font-size: 15px;
+            }
+        }
+
+        .neraca-wallets {
+            .table th,
+            .table td {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+        }
+
+        .neraca-skeleton {
+            grid-template-columns: 1.15fr 1fr;
+
+            .neraca-skel-wide {
+                display: block;
+                grid-column: 1 / -1;
+                height: 140px;
+            }
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .neraca-top {
+            grid-template-columns: minmax(340px, 1.25fr) minmax(420px, 1fr);
+            gap: 20px;
+        }
+
+        .neraca-mid {
+            grid-template-columns: minmax(300px, 0.85fr) minmax(480px, 1.5fr);
+            gap: 20px;
         }
     }
 
@@ -229,15 +372,16 @@
         }
     }
 
-    /* Quick-action style KPI row */
+    /* Quick-action style KPI row — 2x2 on phone, 2x2 beside summary on desktop, 4-col on tablet */
     .neraca-kpi-row {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
-        margin-bottom: 12px;
+        margin-bottom: 0;
 
-        @media (max-width: 576px) {
-            grid-template-columns: 1fr 1fr;
+        @media (min-width: 576px) and (max-width: 991.98px) {
+            grid-template-columns: repeat(4, 1fr);
+            margin-bottom: 12px;
         }
     }
 
@@ -303,13 +447,9 @@
 
     .neraca-mid {
         display: grid;
-        grid-template-columns: 1fr 1.4fr;
+        grid-template-columns: 1fr;
         gap: 12px;
         margin-bottom: 12px;
-
-        @media (max-width: 640px) {
-            grid-template-columns: 1fr;
-        }
     }
 
     .neraca-panel {
