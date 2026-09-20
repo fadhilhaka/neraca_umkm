@@ -652,3 +652,41 @@
         }
     }
 }
+
+.neraca-mid-cats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+@media (max-width: 991.98px) {
+    .neraca-mid-cats {
+        grid-template-columns: 1fr;
+    }
+}
+.neraca-cat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.neraca-cat-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.neraca-cat-swatch {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 999px;
+    flex: 0 0 auto;
+}
+.neraca-cat-name {
+    flex: 1 1 auto;
+    color: var(--neraca-ink, #3A352B);
+    font-size: 0.9rem;
+}
+.neraca-cat-amt {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--neraca-expense, #A24E3C);
+}

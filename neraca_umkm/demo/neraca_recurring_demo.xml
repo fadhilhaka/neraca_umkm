@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Demo recurring: Sewa toko monthly + Gaji monthly.
+         Odoo XML eval exposes datetime class + timedelta, not datetime.date. -->
+    <record id="demo_recurring_sewa_toko" model="neraca.recurring">
+        <field name="name">Sewa toko</field>
+        <field name="recurring_type">out</field>
+        <field name="amount">2500000</field>
+        <field name="wallet_id" ref="demo_wallet_bca"/>
+        <field name="category_id" ref="category_sewa"/>
+        <field name="frequency">monthly</field>
+        <field name="interval">1</field>
+        <field name="day_of_month">1</field>
+        <field name="next_date" eval="(datetime.today().replace(day=1) + timedelta(days=32)).replace(day=1).strftime('%Y-%m-%d')"/>
+        <field name="notes">Sewa kios bulanan — demo</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="demo_recurring_gaji" model="neraca.recurring">
+        <field name="name">Gaji karyawan</field>
+        <field name="recurring_type">out</field>
+        <field name="amount">4500000</field>
+        <field name="wallet_id" ref="demo_wallet_bca"/>
+        <field name="category_id" ref="category_gaji"/>
+        <field name="frequency">monthly</field>
+        <field name="interval">1</field>
+        <field name="day_of_month">25</field>
+        <field name="next_date" eval="(datetime.today().replace(day=1) + timedelta(days=32)).replace(day=25).strftime('%Y-%m-%d')"/>
+        <field name="notes">Gaji staf toko — demo</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

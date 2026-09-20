@@ -76,6 +76,87 @@ class NeracaCashflowHelper(models.AbstractModel):
         outflow = self._sum_liquidity_moves(company, start, today, "out")
         return (inflow - outflow) / float(days or 1)
 
+
+    @api.model
+    def _top_expense_categories(self, company, date_from, date_to, limit=5):
+        """Top expense categories for the period from tagged AML."""
+        MoveLine = self.env["account.move.line"]
+        domain = [
+            ("neraca_category_id", "!=", False),
+            ("neraca_category_id.category_type", "=", "expense"),
+            ("parent_state", "=", "posted"),
+            ("company_id", "=", company.id),
+            ("date", ">=", date_from),
+            ("date", "<=", date_to),
+        ]
+        groups = MoveLine.read_group(
+            domain,
+            ["balance:sum", "neraca_category_id"],
+            ["neraca_category_id"],
+        )
+        rows = []
+        Category = self.env["neraca.category"]
+        for g in groups:
+            cat_data = g.get("neraca_category_id")
+            if not cat_data:
+                continue
+            amount = abs(g.get("balance") or 0.0)
+            if not amount:
+                continue
+            cat = Category.browse(cat_data[0])
+            rows.append(
+                {
+                    "name": cat.name,
+                    "amount": amount,
+                    "color": cat.color or "#6B7280",
+                }
+            )
+        rows.sort(key=lambda r: r["amount"], reverse=True)
+        return rows[:limit]
+
+    @api.model
+    def _upcoming_recurring_outflows(self, company, days):
+        """Sum of active recurring outflows expected within the next `days` days."""
+        today = fields.Date.context_today(self)
+        horizon = today + timedelta(days=days)
+        Recurring = self.env["neraca.recurring"]
+        if "neraca.recurring" not in self.env:
+            return 0.0
+        items = Recurring.search(
+            [
+                ("active", "=", True),
+                ("recurring_type", "=", "out"),
+                ("company_id", "=", company.id),
+                ("next_date", "!=", False),
+                ("next_date", "<=", horizon),
+            ]
+        )
+        total = 0.0
+        for rec in items:
+            # Estimate occurrences from next_date through horizon
+            cursor = rec.next_date
+            safety = 0
+            while cursor and cursor <= horizon and safety < 48:
+                if cursor >= today:
+                    total += rec.amount
+                # advance locally without writing
+                interval = rec.interval or 1
+                if rec.frequency == "daily":
+                    cursor = cursor + timedelta(days=interval)
+                elif rec.frequency == "weekly":
+                    cursor = cursor + timedelta(weeks=interval)
+                elif rec.frequency == "yearly":
+                    cursor = cursor + relativedelta(years=interval)
+                else:
+                    cursor = cursor + relativedelta(months=interval)
+                    if rec.day_of_month:
+                        try:
+                            cursor = cursor.replace(day=rec.day_of_month)
+                        except ValueError:
+                            cursor = cursor + relativedelta(day=31)
+                safety += 1
+        return total
+
     @api.model
     def get_dashboard_data(self):
         """JSON payload for the OWL cashflow dashboard."""
@@ -96,18 +177,6 @@ class NeracaCashflowHelper(models.AbstractModel):
         planned = self._budget_planned_expense(company, start, end)
         avg_net = self._avg_daily_net(company, 30)
 
-        def project(days):
-            # Prefer budget remaining + recent average net
-            remaining_budget = max(planned - outflow, 0.0)
-            budget_share = remaining_budget * (days / 30.0) if planned else 0.0
-            avg_projection = avg_net * days
-            # Blend: if budget exists weight it, else pure average
-            if planned:
-                projected_net = avg_projection * 0.4 - budget_share * 0.6 / max(days / 30.0, 0.1) * (days / 30.0)
-                # Simpler: balance + avg_net*days - remaining budget portion
-                return balance + avg_net * days - (remaining_budget * (days / 30.0) * 0.5)
-            return balance + avg_net * days
-
         wallets = self.env["neraca.wallet"].search(
             [("company_id", "=", company.id)], order="sequence, name"
         )
@@ -121,6 +190,21 @@ class NeracaCashflowHelper(models.AbstractModel):
             }
             for w in wallets
         ]
+
+        recurring_30 = self._upcoming_recurring_outflows(company, 30)
+        recurring_60 = self._upcoming_recurring_outflows(company, 60)
+        recurring_90 = self._upcoming_recurring_outflows(company, 90)
+
+        def project(days, recurring_out=0.0):
+            # Prefer budget remaining + recent average net, minus upcoming recurring
+            remaining_budget = max(planned - outflow, 0.0)
+            if planned:
+                base = balance + avg_net * days - (remaining_budget * (days / 30.0) * 0.5)
+            else:
+                base = balance + avg_net * days
+            return base - recurring_out
+
+        top_cats = self._top_expense_categories(company, start, end, limit=5)
 
         return {
             "company": company.name,
@@ -141,10 +225,16 @@ class NeracaCashflowHelper(models.AbstractModel):
             "balance": balance,
             "runway_days": runway_days,
             "projections": {
-                "d30": project(30),
-                "d60": project(60),
-                "d90": project(90),
+                "d30": project(30, recurring_30),
+                "d60": project(60, recurring_60),
+                "d90": project(90, recurring_90),
+            },
+            "recurring_outflows": {
+                "d30": recurring_30,
+                "d60": recurring_60,
+                "d90": recurring_90,
             },
             "budget_planned": planned,
             "wallets": wallet_rows,
+            "top_expense_categories": top_cats,
         }

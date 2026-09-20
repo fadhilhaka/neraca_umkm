@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_neraca_category_list" model="ir.ui.view">
+        <field name="name">neraca.category.list</field>
+        <field name="model">neraca.category</field>
+        <field name="arch" type="xml">
+            <list string="Kategori">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category_type"/>
+                <field name="color"/>
+                <field name="icon" optional="show"/>
+                <field name="account_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_neraca_category_form" model="ir.ui.view">
+        <field name="name">neraca.category.form</field>
+        <field name="model">neraca.category</field>
+        <field name="arch" type="xml">
+            <form string="Kategori">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Contoh: Sewa"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category_type"/>
+                            <field name="color"/>
+                            <field name="icon" placeholder="emoji / ikon"/>
+                        </group>
+                        <group>
+                            <field name="account_id"/>
+                            <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_neraca_category" model="ir.actions.act_window">
+        <field name="name">Kategori</field>
+        <field name="res_model">neraca.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat kategori pendapatan atau beban
+            </p>
+            <p>
+                Kategori membantu mengelompokkan transaksi pada Papan Cashflow
+                dan Laporan Per Kategori.
+            </p>
+        </field>
+    </record>
+
+    <!-- Category report form -->
+    <record id="view_neraca_category_report_form" model="ir.ui.view">
+        <field name="name">neraca.category.report.form</field>
+        <field name="model">neraca.category.report</field>
+        <field name="arch" type="xml">
+            <form string="Laporan Per Kategori">
+                <header>
+                    <button name="action_compute" type="object" string="Hitung Ulang"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Laporan Per Kategori</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="period_type" widget="radio"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Ringkasan">
+                            <field name="amount_income"/>
+                            <field name="amount_expense"/>
+                            <field name="amount_net"
+                                     decoration-success="amount_net &gt;= 0"
+                                     decoration-danger="amount_net &lt; 0"
+                                     class="fw-bold"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rincian" name="lines">
+                            <field name="line_ids">
+                                <list create="0" edit="0" delete="0"
+                                      default_order="section, amount desc">
+                                    <field name="section"/>
+                                    <field name="display_name_cat" string="Kategori"/>
+                                    <field name="category_id" column_invisible="1"/>
+                                    <field name="name_fallback" column_invisible="1"/>
+                                    <field name="amount"/>
+                                    <field name="color" optional="show"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Standalone list of report lines (opened after compute via form; also available) -->
+    <record id="view_neraca_category_report_line_list" model="ir.ui.view">
+        <field name="name">neraca.category.report.line.list</field>
+        <field name="model">neraca.category.report.line</field>
+        <field name="arch" type="xml">
+            <list string="Rincian Per Kategori" create="0" edit="0" delete="0">
+                <field name="section"/>
+                <field name="display_name_cat" string="Kategori"/>
+                <field name="amount"/>
+                <field name="color" optional="hide"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_neraca_category_report" model="ir.actions.server">
+        <field name="name">Laporan Per Kategori</field>
+        <field name="model_id" ref="model_neraca_category_report"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_report()</field>
+    </record>
+
+    <!-- Optional: category on account.move journal items -->
+    <record id="view_move_form_neraca_category" model="ir.ui.view">
+        <field name="name">account.move.form.neraca.category</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/list/field[@name='account_id']" position="after">
+                <field name="neraca_category_id" optional="show"
+                         options="{'no_create_edit': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

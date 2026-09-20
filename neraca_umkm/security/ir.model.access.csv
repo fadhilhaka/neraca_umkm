@@ -14,3 +14,16 @@ access_neraca_budget_line_account,neraca.budget.line.account,model_neraca_budget
 access_neraca_aging_account,neraca.partner.aging.account,model_neraca_partner_aging,account.group_account_invoice,1,1,1,1
 access_neraca_pl_account,neraca.pl.report.account,model_neraca_pl_report,account.group_account_invoice,1,1,1,1
 access_neraca_pl_line_account,neraca.pl.report.line.account,model_neraca_pl_report_line,account.group_account_invoice,1,1,1,1
+access_neraca_category_user,neraca.category.user,model_neraca_category,group_neraca_user,1,1,1,0
+access_neraca_category_manager,neraca.category.manager,model_neraca_category,group_neraca_manager,1,1,1,1
+access_neraca_category_account,neraca.category.account,model_neraca_category,account.group_account_invoice,1,1,1,0
+access_neraca_category_report_user,neraca.category.report.user,model_neraca_category_report,group_neraca_user,1,1,1,1
+access_neraca_category_report_line_user,neraca.category.report.line.user,model_neraca_category_report_line,group_neraca_user,1,1,1,1
+access_neraca_category_report_account,neraca.category.report.account,model_neraca_category_report,account.group_account_invoice,1,1,1,1
+access_neraca_category_report_line_account,neraca.category.report.line.account,model_neraca_category_report_line,account.group_account_invoice,1,1,1,1
+access_neraca_recurring_user,neraca.recurring.user,model_neraca_recurring,group_neraca_user,1,1,1,0
+access_neraca_recurring_manager,neraca.recurring.manager,model_neraca_recurring,group_neraca_manager,1,1,1,1
+access_neraca_recurring_account,neraca.recurring.account,model_neraca_recurring,account.group_account_invoice,1,1,1,0
+access_neraca_recurring_run_user,neraca.recurring.run.user,model_neraca_recurring_run,group_neraca_user,1,1,0,0
+access_neraca_recurring_run_manager,neraca.recurring.run.manager,model_neraca_recurring_run,group_neraca_manager,1,1,1,1
+access_neraca_recurring_run_account,neraca.recurring.run.account,model_neraca_recurring_run,account.group_account_invoice,1,1,0,0

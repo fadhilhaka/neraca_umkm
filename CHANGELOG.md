@@ -2,6 +2,20 @@
 
 All notable changes to **Neraca for UMKM** (`neraca_umkm`) are documented in this file.
 
+## [18.0.2.0] — 2026-09-20
+
+### Added
+- **Kategori (`neraca.category`)** — income/expense categories with color, icon, optional CoA link; seed data for common UMKM labels (Penjualan, Bahan Baku, Gaji, Sewa, …)
+- **`neraca_category_id` on `account.move.line`** — tag journal items; visible on move form lines
+- **Laporan Per Kategori (`neraca.category.report`)** — period wizard aggregating tagged AML (fallback by account type for untagged)
+- **Berulang (`neraca.recurring` / `neraca.recurring.run`)** — scheduled in/out moves from a wallet; daily cron; idempotent run log (`unique(recurring_id, run_date)`)
+- Cashflow dashboard payload: `top_expense_categories` (top 5 this month) and `recurring_outflows` / projection adjustment for 30/60/90
+- Menus: **Kategori**, **Berulang**, **Laporan Per Kategori**
+- Demo: Sewa toko + Gaji karyawan monthly recurring linked to BCA wallet
+
+### Changed
+- Module version bumped to **18.0.2.0**
+
 ## [18.0.1.3.0] — 2026-09-20
 
 ### Changed

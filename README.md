@@ -111,3 +111,23 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## License
 
 [LGPL-3](LICENSE) — same family as Odoo Community.
+
+## v18.0.2.0 — Kategori & Berulang
+
+### Kategori
+1. Buka **Neraca UMKM → Kategori** untuk mengelola kategori pendapatan/beban.
+2. Saat membuat jurnal, isi **Kategori Neraca** pada baris jurnal (opsional).
+3. Lihat ringkasan di **Laporan Per Kategori** atau `top_expense_categories` di Papan Cashflow.
+
+### Berulang
+1. Buka **Neraca UMKM → Berulang**, buat jadwal (sewa, gaji, dll) terhubung ke Dompet.
+2. Cron harian `Neraca UMKM: Generate Transaksi Berulang` membuat jurnal otomatis.
+3. **Jalankan Sekarang** memaksa generate hari ini (idempotent per tanggal).
+
+### Upgrade
+```bash
+# Dari addons path yang berisi neraca_umkm/
+odoo-bin -d YOUR_DB -u neraca_umkm --stop-after-init
+```
+Atau Apps → Neraca for UMKM → Upgrade.
+

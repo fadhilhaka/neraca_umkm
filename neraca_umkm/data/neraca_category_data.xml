@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Income -->
+    <record id="category_penjualan" model="neraca.category">
+        <field name="name">Penjualan</field>
+        <field name="category_type">income</field>
+        <field name="color">#08906C</field>
+        <field name="icon">💰</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="category_pendapatan_lain" model="neraca.category">
+        <field name="name">Pendapatan Lain</field>
+        <field name="category_type">income</field>
+        <field name="color">#10B981</field>
+        <field name="icon">➕</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Expense -->
+    <record id="category_bahan_baku" model="neraca.category">
+        <field name="name">Bahan Baku</field>
+        <field name="category_type">expense</field>
+        <field name="color">#CE3C2B</field>
+        <field name="icon">📦</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="category_operasional" model="neraca.category">
+        <field name="name">Operasional</field>
+        <field name="category_type">expense</field>
+        <field name="color">#F59E0B</field>
+        <field name="icon">⚙️</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="category_gaji" model="neraca.category">
+        <field name="name">Gaji</field>
+        <field name="category_type">expense</field>
+        <field name="color">#EF4444</field>
+        <field name="icon">👥</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="category_sewa" model="neraca.category">
+        <field name="name">Sewa</field>
+        <field name="category_type">expense</field>
+        <field name="color">#8B5CF6</field>
+        <field name="icon">🏠</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="category_utilitas" model="neraca.category">
+        <field name="name">Utilitas</field>
+        <field name="category_type">expense</field>
+        <field name="color">#3B82F6</field>
+        <field name="icon">💡</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="category_marketing" model="neraca.category">
+        <field name="name">Marketing</field>
+        <field name="category_type">expense</field>
+        <field name="color">#EC4899</field>
+        <field name="icon">📣</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="category_transport" model="neraca.category">
+        <field name="name">Transport</field>
+        <field name="category_type">expense</field>
+        <field name="color">#14B8A6</field>
+        <field name="icon">🚚</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="category_pajak" model="neraca.category">
+        <field name="name">Pajak</field>
+        <field name="category_type">expense</field>
+        <field name="color">#64748B</field>
+        <field name="icon">🧾</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="category_lainnya" model="neraca.category">
+        <field name="name">Lainnya</field>
+        <field name="category_type">expense</field>
+        <field name="color">#6B7280</field>
+        <field name="icon">📋</field>
+        <field name="sequence">110</field>
+    </record>
+</odoo>

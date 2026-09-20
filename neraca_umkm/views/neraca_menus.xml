@@ -17,6 +17,18 @@
               action="action_neraca_wallet"
               sequence="20"/>
 
+    <menuitem id="menu_neraca_category"
+              name="Kategori"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_category"
+              sequence="25"/>
+
+    <menuitem id="menu_neraca_recurring"
+              name="Berulang"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_recurring"
+              sequence="28"/>
+
     <menuitem id="menu_neraca_budget"
               name="Anggaran"
               parent="menu_neraca_umkm_root"
@@ -40,4 +52,10 @@
               parent="menu_neraca_umkm_root"
               action="action_neraca_pl"
               sequence="60"/>
+
+    <menuitem id="menu_neraca_category_report"
+              name="Laporan Per Kategori"
+              parent="menu_neraca_umkm_root"
+              action="action_neraca_category_report"
+              sequence="65"/>
 </odoo>

@@ -105,9 +105,44 @@
                             </div>
                         </div>
                         <p class="neraca-footnote">
-                            Rata-rata cashflow 30 hari + sisa anggaran.
+                            Rata-rata cashflow 30 hari + sisa anggaran, dikurangi berulang.
                             Anggaran: <t t-esc="formatMoney(state.data.budget_planned)"/>
+                            · Berulang 30h: <t t-esc="formatMoney(state.data.recurring_outflows.d30)"/>
                         </p>
+                    </div>
+                </div>
+
+                <div class="neraca-mid neraca-mid-cats" style="--neraca-delay: 0.32s">
+                    <div class="neraca-card neraca-panel neraca-categories">
+                        <h5>Top Kategori Keluar</h5>
+                        <t t-if="!(state.data.top_expense_categories and state.data.top_expense_categories.length)">
+                            <p class="neraca-footnote mb-0">Belum ada jurnal dengan kategori. Tandai baris jurnal atau jalankan Laporan Per Kategori.</p>
+                        </t>
+                        <div t-else="" class="neraca-cat-list">
+                            <div class="neraca-cat-row" t-foreach="state.data.top_expense_categories" t-as="c" t-key="c_index">
+                                <span class="neraca-cat-swatch" t-att-style="'background:' + (c.color || '#6B7280')"/>
+                                <span class="neraca-cat-name" t-esc="c.name"/>
+                                <span class="neraca-cat-amt" t-esc="formatMoney(c.amount)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="neraca-card neraca-panel neraca-recurring-preview">
+                        <h5>Berulang Mendatang</h5>
+                        <div class="neraca-proj">
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">30 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.data.recurring_outflows.d30)"/>
+                            </div>
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">60 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.data.recurring_outflows.d60)"/>
+                            </div>
+                            <div class="neraca-proj-item">
+                                <div class="neraca-proj-label">90 hari</div>
+                                <div class="neraca-proj-value" t-esc="formatMoney(state.data.recurring_outflows.d90)"/>
+                            </div>
+                        </div>
+                        <p class="neraca-footnote mb-0">Kelola di menu Berulang.</p>
                     </div>
                 </div>
 
